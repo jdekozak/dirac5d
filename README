@@ -1,0 +1,8 @@
+Starting point is an article from P Rowlands available on arxiv :
+http://arxiv.org/abs/quant-ph/0301071
+
+The CAS library is sympy. A patch is needed to get the pretty printing, look here :
+http://code.google.com/p/sympy/issues/detail?id=2083
+
+Code works on Debian Squeeze.
+python ./evq.py
