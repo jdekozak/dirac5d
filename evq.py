@@ -156,28 +156,28 @@ L4={}
 R4={}
 for (signs, symbols) in zip([(+1,  -1, -1), (+1, +1, +1), (-1, +1, -1), (-1, -1, +1)],
                             [('+','-','-'),('+','+','+'),('-','+','-'),('-','-','+')]):
-    l=( signs[0]*K[1]+signs[1]*K[4]*icquat+signs[2]*K[3]*jcquat+K[2]*kcquat)
-    r=( signs[0]*K[1]+signs[1]*icquat*K[4]+signs[2]*jcquat*K[3]+kcquat*K[2])
-    l.texLabel=symbols[0]+'K_1'+symbols[1]+'K_4'+icquat.texLabel+symbols[2]+'K_3'+jcquat.texLabel+'+K_2'+kcquat.texLabel
-    r.texLabel=symbols[0]+'K_1'+symbols[1]+icquat.texLabel+'K_4'+symbols[2]+jcquat.texLabel+'K_3'+'+'+kcquat.texLabel+'K_2'
+    l=( K[1]+signs[0]*K[4]*icquat+signs[1]*K[3]*jcquat+signs[2]*K[2]*kcquat)
+    r=( K[1]+signs[0]*icquat*K[4]+signs[1]*jcquat*K[3]+signs[2]*kcquat*K[2])
+    l.texLabel='K_1'+symbols[0]+'K_4'+icquat.texLabel+symbols[1]+'K_3'+jcquat.texLabel+symbols[2]+'K_2'+kcquat.texLabel
+    r.texLabel='K_1'+symbols[0]+icquat.texLabel+'K_4'+symbols[1]+jcquat.texLabel+'K_3'+symbols[2]+kcquat.texLabel+'K_2'
     L1[i]=l
     R1[i]=r
-    l=( signs[0]*K[2]+signs[1]*K[3]*icquat+signs[2]*K[4]*jcquat+K[1]*kcquat)
-    r=( signs[0]*K[2]+signs[1]*icquat*K[3]+signs[2]*jcquat*K[4]+kcquat*K[1])
-    l.texLabel=symbols[0]+'K_2'+symbols[1]+'K_3'+icquat.texLabel+symbols[2]+'K_4'+jcquat.texLabel+'+K_1'+kcquat.texLabel
-    r.texLabel=symbols[0]+'K_2'+symbols[1]+icquat.texLabel+'K_3'+symbols[2]+jcquat.texLabel+'K_4'+'+'+kcquat.texLabel+'K_1'
+    l=( K[2]+signs[0]*K[3]*icquat+signs[1]*K[4]*jcquat+signs[2]*K[1]*kcquat)
+    r=( K[2]+signs[0]*icquat*K[3]+signs[1]*jcquat*K[4]+signs[2]*kcquat*K[1])
+    l.texLabel='K_2'+symbols[0]+'K_3'+icquat.texLabel+symbols[1]+'K_4'+jcquat.texLabel+symbols[2]+'K_1'+kcquat.texLabel
+    r.texLabel='K_2'+symbols[0]+icquat.texLabel+'K_3'+symbols[1]+jcquat.texLabel+'K_4'+symbols[2]+kcquat.texLabel+'K_1'
     L2[i]=l
     R2[i]=r
-    l=( signs[0]*K[3]+signs[1]*K[2]*icquat+signs[2]*K[1]*jcquat+K[4]*kcquat)
-    r=( signs[0]*K[3]+signs[1]*icquat*K[2]+signs[2]*jcquat*K[1]+kcquat*K[4])
-    l.texLabel=symbols[0]+'K_3'+symbols[1]+'K_2'+icquat.texLabel+symbols[2]+'K_1'+jcquat.texLabel+'+K_4'+kcquat.texLabel
-    r.texLabel=symbols[0]+'K_3'+symbols[1]+icquat.texLabel+'K_2'+symbols[2]+jcquat.texLabel+'K_1'+'+'+kcquat.texLabel+'K_4'
+    l=( K[3]+signs[0]*K[2]*icquat+signs[1]*K[1]*jcquat+signs[2]*K[4]*kcquat)
+    r=( K[3]+signs[0]*icquat*K[2]+signs[1]*jcquat*K[1]+signs[2]*kcquat*K[4])
+    l.texLabel='K_3'+symbols[0]+'K_2'+icquat.texLabel+symbols[1]+'K_1'+jcquat.texLabel+symbols[2]+'K_4'+kcquat.texLabel
+    r.texLabel='K_3'+symbols[0]+icquat.texLabel+'K_2'+symbols[1]+jcquat.texLabel+'K_1'+symbols[2]+kcquat.texLabel+'K_4'
     L3[i]=l
     R3[i]=r
-    l=( signs[0]*K[4]+signs[1]*K[1]*icquat+signs[2]*K[2]*jcquat+K[3]*kcquat)
-    r=( signs[0]*K[4]+signs[1]*icquat*K[1]+signs[2]*jcquat*K[2]+kcquat*K[3])
-    l.texLabel=symbols[0]+'K_4'+symbols[1]+'K_1'+icquat.texLabel+symbols[2]+'K_2'+jcquat.texLabel+'+K_3'+kcquat.texLabel
-    r.texLabel=symbols[0]+'K_4'+symbols[1]+icquat.texLabel+'K_1'+symbols[2]+jcquat.texLabel+'K_2'+'+'+kcquat.texLabel+'K_3'
+    l=( K[4]+signs[0]*K[1]*icquat+signs[1]*K[2]*jcquat+signs[2]*K[3]*kcquat)
+    r=( K[4]+signs[0]*icquat*K[1]+signs[1]*jcquat*K[2]+signs[2]*kcquat*K[3])
+    l.texLabel='K_4'+symbols[0]+'K_1'+icquat.texLabel+symbols[1]+'K_2'+jcquat.texLabel+symbols[2]+'K_3'+kcquat.texLabel
+    r.texLabel='K_4'+symbols[0]+icquat.texLabel+'K_1'+symbols[1]+jcquat.texLabel+'K_2'+symbols[2]+kcquat.texLabel+'K_3'
     L4[i]=l
     R4[i]=r
     i+=1
@@ -189,6 +189,66 @@ L[3]=L3
 R[3]=R3
 L[4]=L4
 R[4]=R4
+#Solutions 'combinees' x16 apres factorisation
+i=1
+Lf ={}
+Rf ={}
+L1f={}
+R1f={}
+L2f={}
+R2f={}
+L3f={}
+R3f={}
+L4f={}
+R4f={}
+for (signs, symbols) in zip([( -1, +1, -1),( -1, -1, +1),( +1, -1, -1),( +1, +1, +1)],
+                            [('-','+','-'),('-','-','+'),('+','-','-'),('+','+','+')]):
+    lf=     ( 1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)*K[1]
+    rf=K[1]*( 1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)
+    lf.texLabel=   '(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')K_1'
+    rf.texLabel='K_1(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')'
+    L1f[i]=lf
+    R1f[i]=rf
+    lf=     ( 1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)*K[2]
+    rf=K[2]*( 1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)
+    lf.texLabel=   '(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')K_2'
+    rf.texLabel='K_2(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')'
+    L2f[i]=lf
+    R2f[i]=rf
+    lf=     ( 1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)*K[3]
+    rf=K[3]*( 1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)
+    lf.texLabel=   '(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')K_3'
+    rf.texLabel='K_3(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')'
+    L3f[i]=lf
+    R3f[i]=rf
+    lf=     ( 1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)*K[4]
+    rf=K[4]*( 1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)
+    lf.texLabel=   '(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')K_4'
+    rf.texLabel='K_4(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')'
+    L4f[i]=lf
+    R4f[i]=rf
+    i+=1
+Lf[1]=L1f
+Rf[1]=R1f
+Lf[2]=L2f
+Rf[2]=R2f
+Lf[3]=L3f
+Rf[3]=R3f
+Lf[4]=L4f
+Rf[4]=R4f
+
+#Solutions 'combinees' forme canonique
+i=1
+C ={}
+C1=None
+C2=None
+C3=None
+C4=None
+for (signs, symbols) in zip([( -1, +1, -1),( -1, -1, +1),( +1, -1, -1),( +1, +1, +1)],
+                            [('-','+','-'),('-','-','+'),('+','-','-'),('+','+','+')]):
+    C[i]=(1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)
+    C[i].texLabel='(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')'
+    i+=1
 
 #Equation d'onde (Onde Plane Progressive Monochromatique)
 #psi=A1a*exp(f1)
@@ -283,32 +343,45 @@ for (kkey,k) in K.items():
 #    k.convert_from_blades()
 #    print klabel+'=', k
 
-if outputTex:
-    tex.Format('1 1 1 2')
-else:
-    MV.set_str_format(1)
+#if outputTex:
+#    tex.Format('1 1 1 2')
+#else:
+#    MV.set_str_format(1)
+
 print '\\end{equation*}\\newpage\\begin{equation*}'
 print('Mixed Constants $A$ (built from simple constants and the coquaternions)')
 for (column,l) in L.items():
     print '$L_'+str(column)+'$'
     theLeftVector  = '\\begin{pmatrix}'
     theRightVector = '\\begin{pmatrix}'
+    theFinalVector = '\\begin{pmatrix}'
+    theResult      = '\\begin{pmatrix}'
     for (row,element) in l.items():
         theLeftVector +='L_'+str(column)+'^'+str(row)+'\\\\'
         theRightVector+=element.texLabel+'\\\\'
+        theFinalVector+=Lf[column][row].texLabel+'\\\\'
+        theResult     +=str(element-Lf[column][row])+'\\\\'
     theLeftVector += '\\end{pmatrix}'
     theRightVector+= '\\end{pmatrix}'
-    print theLeftVector+'='+theRightVector
+    theFinalVector+= '\\end{pmatrix}'
+    theResult     += '\\end{pmatrix}'
+    print theLeftVector+'\\equiv'+theRightVector+'-'+theFinalVector+'='+theResult
 for (column,r) in R.items():
     print '$R_'+str(column)+'$'
     theLeftVector  = '\\begin{pmatrix}'
     theRightVector = '\\begin{pmatrix}'
+    theFinalVector = '\\begin{pmatrix}'
+    theResult      = '\\begin{pmatrix}'
     for (row,element) in r.items():
         theLeftVector +='R_'+str(column)+'^'+str(row)+'\\\\'
         theRightVector+=element.texLabel+'\\\\'
+        theFinalVector+=Rf[column][row].texLabel+'\\\\'
+        theResult     +=str(element-Rf[column][row])+'\\\\'
     theLeftVector += '\\end{pmatrix}'
     theRightVector+= '\\end{pmatrix}'
-    print theLeftVector+'='+theRightVector
+    theFinalVector+= '\\end{pmatrix}'
+    theResult     += '\\end{pmatrix}'
+    print theLeftVector+'\\equiv'+theRightVector+'-'+theFinalVector+'='+theResult
 
 def symmetryLeftRight(p_rotor, p_fromColumn, p_toColumn, p_toRows, p_sign):
     theLeftVector  = p_rotor.texLabel + '\\begin{pmatrix}'
