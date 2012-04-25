@@ -147,8 +147,8 @@ K[8].texLabel=texLabel
 #idempotents with icquat, jcquat, kcquat and jcquat*imag
 i=1
 idem={}
-for (signs, symbols) in zip([( -1, +1, -1),( -1, -1, +1),( +1, -1, -1),( +1, +1, +1)],
-                            [('-','+','-'),('-','-','+'),('+','-','-'),('+','+','+')]):
+for (signs, symbols) in zip([( -1, +1, -1),( -1, -1, +1),( +1, -1, -1),( +1, +1, +1), ( +1, -1, +1),( +1, +1, -1),( -1, +1, +1),( -1, -1, -1)],
+                            [('-','+','-'),('-','-','+'),('+','-','-'),('+','+','+'), ('+','-','+'),('+','+','-'),('-','+','+'),('-','-','-')]):
     idem[i]=0.5*(1+jcquat*imag)*0.5*(1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)
     idem[i].texLabel='\\frac{1}{2}(1+'+jcquat.texLabel+imag.texLabel+')\\frac{1}{2}(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')'
     i+=1
@@ -158,7 +158,7 @@ for (signs, symbols) in zip([( -1, +1, -1),( -1, -1, +1),( +1, -1, -1),( +1, +1,
 
 def Idempotents():
     print('Some idempotents in $Cl_{1,4}(\\mathbb{R})$')
-    for index in range(1,9):
+    for index in range(1,17):
         print('Id_{'+str(index)+'} = '+idem[index].texLabel)
         print('Id_{'+str(index)+'}Id_{'+str(index)+'} - Id_{'+str(index)+'} = ' + str(idem[index]*idem[index]-idem[index]))
 
@@ -241,7 +241,7 @@ print('Check first derivative is null $K{\\nabla}f$')
 for (kkey,k) in K.items():
     klabel = 'K_'+str(kkey)
     print klabel+'{\\nabla}f=', k * F.grad()
-print('8 previous solutions can be combined linearly together and factorized, this gives idempotents !')
+print('8 previous solutions can be combined linearly together and factorized, this gives 16 idempotents !')
 Idempotents()
 
 #if outputTex:
