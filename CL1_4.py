@@ -8,6 +8,7 @@ import sympy.galgebra.latex_ex as tex
 set_main(sys.modules[__name__])
 
 outputTex=True
+#outputTex=False
 
 ########################################################################
 #ALGEBRA & DEFINITIONS
@@ -33,7 +34,7 @@ imag=gamma_w
 imag.texLabel='i'
 #CoQuaternions
 icquat=gamma_t*gamma_w
-jcquat=gamma_t*gamma_x*gamma_y*gamma_z
+jcquat=gamma_t*gamma_x*gamma_y*gamma_z*gamma_w
 kcquat=gamma_x*gamma_y*gamma_z*gamma_w
 icquat.texLabel='\\mathbf{i}'
 jcquat.texLabel='\\mathbf{j}'
@@ -46,7 +47,7 @@ iquat.texLabel='\\boldsymbol{\\mathit{i}}'
 jquat.texLabel='\\boldsymbol{\\mathit{j}}'
 kquat.texLabel='\\boldsymbol{\\mathit{k}}'
 #PseudoScalar
-#MV.I=jcquat*imag
+#MV.I=jcquat
 
 def CheckProperties(i,j,k, ilabel, jlabel, klabel):
     i.convert_from_blades()
@@ -68,7 +69,7 @@ def CheckProperties(i,j,k, ilabel, jlabel, klabel):
 
 def CheckGlobals():
     '''Check algebra definitions'''
-    print 'CoQuaternions $(1,'+icquat.texLabel+','+jcquat.texLabel+','+kcquat.texLabel+')$ http://en.wikipedia.org/wiki/Split-quaternion'
+    print 'CoQuaternions $('+imag.texLabel+','+icquat.texLabel+','+jcquat.texLabel+','+kcquat.texLabel+')$ http://en.wikipedia.org/wiki/Split-quaternion ?'
     CheckProperties(icquat,jcquat,kcquat,
                     icquat.texLabel,jcquat.texLabel,kcquat.texLabel)
     print
@@ -86,11 +87,12 @@ i=1
 U={}
 for (signs, symbols) in zip([( -1, +1, -1),( -1, -1, +1),( +1, -1, -1),( +1, +1, +1), ( +1, -1, +1),( +1, +1, -1),( -1, +1, +1),( -1, -1, -1)],
                             [('-','+','-'),('-','-','+'),('+','-','-'),('+','+','+'), ('+','-','+'),('+','+','-'),('-','+','+'),('-','-','-')]):
-    U[i]=0.5*(1+jcquat*imag)*0.5*(1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)
-    U[i].texLabel='\\frac{1}{2}(1+'+jcquat.texLabel+imag.texLabel+')\\frac{1}{2}(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')'
+    U[i]=(1+jcquat)*(1+signs[0]*icquat+signs[1]*imag+signs[2]*kcquat)*(S(1)/4)
+    U[i].texLabel='\\frac{1}{2}(1+'+jcquat.texLabel+')\\frac{1}{2}(1'+symbols[0]+icquat.texLabel+symbols[1]+imag.texLabel+symbols[2]+kcquat.texLabel+')'
     i+=1
-    U[i]=0.5*(1-jcquat*imag)*0.5*(1+signs[0]*icquat+signs[1]*jcquat+signs[2]*kcquat)
-    U[i].texLabel='\\frac{1}{2}(1-'+jcquat.texLabel+imag.texLabel+')\\frac{1}{2}(1'+symbols[0]+icquat.texLabel+symbols[1]+jcquat.texLabel+symbols[2]+kcquat.texLabel+')'
+    U[i]=(1-jcquat)*(1+signs[0]*icquat+signs[1]*imag+signs[2]*kcquat)*(S(1)/4)
+    U[i].texLabel='\\frac{1}{2}(1-'+jcquat.texLabel+')\\frac{1}{2}(1'+symbols[0]+icquat.texLabel+symbols[1]+imag.texLabel+symbols[2]+kcquat.texLabel+')'
+    U[i].convert_from_blades()
     i+=1
 
 def Idempotents():
@@ -101,18 +103,20 @@ def Idempotents():
 ########################################################################
 #PHYSICS
 ########################################################################
-parms = make_symbols('q m E p_x p_y p_z E_x E_y E_z B_x B_y B_z J_t J_x J_y J_z')
+parms = make_symbols('q m E p_x p_y p_z E_x E_y E_z B_x B_y B_z phi A_x A_y A_z')
 
-r = [y, z, x]
+R = x*gamma_x+y*gamma_y+z*gamma_z
 rquat = [iquat, jquat, kquat]
 
 pv =[p_x, p_y, p_z]
 Ev =[E_x, E_y, E_z]
 Bv =[B_x, B_y, B_z]
+Av =[A_x, A_y, A_z]
 
 p = S(0)
-El = S(0)
+El= S(0)
 B = S(0)
+A = S(0)
 
 for (dim, var) in zip(pv, rquat):
     p += var * dim
@@ -120,26 +124,25 @@ for (dim, var) in zip(Ev, rquat):
     El += var * dim
 for (dim, var) in zip(Bv, rquat):
     B += var * dim
+for (dim, var) in zip(Av, rquat):
+    A += var * dim
 
 p.texLabel='\\mathbf{p}'
 El.texLabel='\\mathbf{E}'
 B.texLabel='\\mathbf{B}'
+A.texLabel='\\mathbf{A}'
 
-J=J_t*gamma_t + J_x*gamma_x + J_y*gamma_y + J_z*gamma_z
-J.texLabel='\\mathbf{J}'
-
-r.append(w)
 #potentiels A
 ADm=S(1)*(-imag*(E*t -p_x*x -p_y*y -p_z*z) -m*w )
 AD=-imag*(E*t -p_x*x -p_y*y -p_z*z)
-AM=(E_x*x+E_y*y+E_z*z)*gamma_t-B_y*gamma_x*z-B_z*gamma_y*x-B_x*gamma_z*y
-A=AD+AM
+AM=(E_x*x+E_y*y+E_z*z)*gamma_t+(-B_y*z)*gamma_x+(-B_z*x)*gamma_y+(-B_x*y)*gamma_z
+ADM=AD+AM
 
 #Solutions particulieres
 i=1
 K={}
-for (signs,symbols) in zip([(+1, +1), (+1, -1), (-1, +1), (-1, -1)],
-                           [('+','+'),('+','-'),('-','+'),('-','-')]):
+for (signs,symbols) in zip([(+1, +1), (+1, -1), (+1, +1), (-1, -1)],
+                           [('+','+'),('+','-'),('+','+'),('-','-')]):
     k=(-icquat*E+signs[0]*imag*m+signs[1]*kcquat*p)
     k.texLabel='(-'+icquat.texLabel+'E'+symbols[0]+imag.texLabel+'m'+symbols[1]+kcquat.texLabel+p.texLabel+')'
     K[i] = k
@@ -148,13 +151,13 @@ texLabel='-'+K[2].texLabel+kcquat.texLabel
 K[2]=-K[2]*kcquat
 K[2].texLabel=texLabel
 texLabel='-'+K[3].texLabel+jcquat.texLabel
-K[3]=-K[3]*jcquat
+K[3]=K[3]*jcquat
 K[3].texLabel=texLabel
 texLabel=K[4].texLabel+icquat.texLabel
 K[4]=K[4]*icquat
 K[4].texLabel=texLabel
-texLabel=K[1].texLabel+jcquat.texLabel+imag.texLabel
-K[5]=K[1]*jcquat*imag
+texLabel='(-'+icquat.texLabel+'E-'+imag.texLabel+'m+'+kcquat.texLabel+p.texLabel+')'+jcquat.texLabel+imag.texLabel
+K[5]=(-icquat*E-imag*m+kcquat*p)*jcquat*imag
 K[5].texLabel=texLabel
 texLabel='-'+'(-'+icquat.texLabel+'E-'+imag.texLabel+'m+'+kcquat.texLabel+p.texLabel+')'+imag.texLabel
 K[6]=-(-icquat*E-imag*m+kcquat*p)*imag
@@ -166,20 +169,22 @@ texLabel='-'+'(-'+icquat.texLabel+'E-'+imag.texLabel+'m-'+kcquat.texLabel+p.texL
 K[8]=-(-icquat*E-imag*m-kcquat*p)*kcquat*imag
 K[8].texLabel=texLabel
 
+def energy(self):
+    return self.subs(E**2/4-m**2/4-p_x**2/4-p_y**2/4-p_z**2/4,0).subs(-E**2/4+m**2/4+p_x**2/4+p_y**2/4+p_z**2/4,0)
+MV.energy=energy
 
 ########################################################################
 #MAIN DIRAC
 ########################################################################
 print('ALGEBRA')
 print('')
-print('Algebra playground is Clifford $Cl_{1,4}(\\mathbb{R})$, hence signature is (+ - - - -). The five dimensions are $(t, x, y, z, w)$.')
+print('Algebra playground is Clifford $Cl_{1,4}(\\mathbb{R})$, hence signature is (+ - - - -). The five dimensions are $(t, x, y, z, w)$. It defines two sets of quaternions with one imaginary unit.')
 # 1 scalar
 # 5 vectors
 # 10 bivectors
 # 10 tri vectors
 # 5 pseudo vectors = quadri vectors
 # 1 pseudo scalar
-print('It defines two sets of quaternions with one imaginary unit.')
 CheckGlobals()
 print('Gradient definition')
 print('{\\nabla}=({\gamma}_t \\frac{\\partial}{\\partial t}+{\gamma}_x \\frac{\\partial}{\\partial x}+{\gamma_y} \\frac{\\partial}{\\partial y}+{\gamma_z} \\frac{\\partial}{\\partial z}+{\gamma_w} \\frac{\\partial}{\\partial w})')
@@ -207,10 +212,13 @@ print('First derivative')
 print('{\\nabla}{\psi}={\\nabla}(Ke^f)')
 print('{\\nabla}{\psi}=({\\nabla}K)e^f+K{\\nabla}(e^f)')
 print('{\\nabla}K=0')
-print('{\\nabla}{\psi}=K({\\nabla}f)e^f')
+print('{\\nabla}{\psi_L}=({\\nabla}f)Ke^f')
+print('{\\nabla}{\psi_R}=Ke^f({\\nabla}f)')
+print('{\\nabla}{\psi_R}=K({\\nabla}f)e^f')
+print('Find solutions that fullfills left and right multiplication, (start with right multiplication)')
 
 print ('$f$ is the exponential function')
-print A
+print ADM
 
 
 print('\\end{equation*}\\newpage\\begin{equation*}')
@@ -220,7 +228,6 @@ print('0=({\gamma}_0 \\frac{\\partial}{\\partial t}+{\gamma}_1 \\frac{\\partial}
 
 print('Substitution in Dirac equation')
 print('-'+imag.texLabel+'m\psi = (-'+icquat.texLabel+'\\frac{\\partial}{\\partial t}-'+iquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial x}-'+jquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial y}-'+kquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
-
 #print('Factorization and multiplication')
 #print('0 = '+jcquat.texLabel+'(-'+kcquat.texLabel+'\\frac{\\partial}{\\partial t}+'+iquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial x}+'+jquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial y}+'+kquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial z}-'+jcquat.texLabel+imag.texLabel+'m) {\psi}')
 
@@ -249,7 +256,7 @@ print '{\gamma}_3 = ', gamma_3
 print '-'+kquat.texLabel+kcquat.texLabel+' = ', -kquat*kcquat
 print '{\gamma}_3^2 = ', gamma_3*gamma_3
 print '{\gamma}_5 = ', gamma_5
-print '-'+imag.texLabel+jcquat.texLabel+' = ', -imag*jcquat
+print '-'+jcquat.texLabel+' = ', -jcquat
 print '{\gamma}_5^2 = ', gamma_5*gamma_5
 
 print('Exponential function with energy and momentum only, electric and magnetic fields are null $f$')
@@ -267,6 +274,48 @@ print('Check first derivative is null $K({\\nabla}f + i m)$')
 for (kkey,k) in K.items():
     klabel = 'K_'+str(kkey)
     print klabel+'({\\nabla}f+ i m) =', k * (AD.grad()+imag*m)
+
+print('Right multiplication, left multiplication and combinations of the eight particular solutions')
+
+print 'U_1 = ', U[1]
+
+if outputTex:
+    tex.Format('1 1 1 3')
+else:
+    MV.set_str_format(1)
+
+res=U[1]*K[1]*(AD.grad()+imag*m)
+res.expand()
+print 'U_1K_1 ({\\nabla}f+ i m) = ', res
+
+res=(AD.grad()+imag*m)*K[1]*U[1]
+res.expand()
+print '({\\nabla}f+ i m) K_1U_1 = ', res
+
+psi=K[1]*U[1]*K[1]
+psi.expand()
+psi=psi.energy()
+print('\psi = K_1U_1K_1')
+print('\psi = K_1U_1U_1K_1')
+print('\psi : \psi_L\psi_R')
+print '\psi = ', psi
+print('\\end{equation*}\\newpage\\begin{equation*}')
+print('Dirac observables handout 11 chapter 3.1')
+i=1
+O={}
+for (aBasis,aBasisLabel) in [(1,''),(imag,imag.texLabel),(icquat,icquat.texLabel),(kcquat,kcquat.texLabel)]:
+    O[i]=psi*aBasis*psi.rev()
+    O[i].texLabel = '{\psi}'+aBasisLabel+'{\\tilde{\psi}}'
+    O[i].expand()
+    print 'O_'+str(i)+'='+ O[i].texLabel
+    print 'O_'+str(i)+'=', O[i]
+    print('\\end{equation*}\\newpage\\begin{equation*}')
+    i+=1
+
+if outputTex:
+    tex.Format('1 1 1 1')
+else:
+    MV.set_str_format(1)
 
 
 print('\\end{equation*}\\newpage\\begin{equation*}')
@@ -287,11 +336,11 @@ if outputTex:
     tex.Format('1 1 1 3')
 else:
     MV.set_str_format(1)
-F_DiracMaxwell = A.grad()
+F_DiracMaxwell = ADM.grad()
 print 'F_{DiracMaxwell} = ', F_DiracMaxwell
 
-F_Maxwell = B-jcquat*El
-F_Maxwell.texLabel = B.texLabel + '-' + jcquat.texLabel + El.texLabel 
+F_Maxwell = -imag*(imag*B-jcquat*El)
+F_Maxwell.texLabel = '-'+imag.texLabel+'('+imag.texLabel+B.texLabel + '-' + jcquat.texLabel + El.texLabel+')'
 print 'F_{Maxwell} = ' + F_Maxwell.texLabel 
 print 'F_{Maxwell} = ', F_Maxwell
 
@@ -300,8 +349,34 @@ F_Dirac.texLabel = '('+kcquat.texLabel+p.texLabel+'-'+icquat.texLabel+'E)'
 print 'F_{Dirac} = '+F_Dirac.texLabel
 print 'F_{Dirac} = ', F_Dirac
 
-#print('\\end{equation*}\\newpage\\begin{equation*}')
+print('\\end{equation*}\\newpage\\begin{equation*}')
 
+if outputTex:
+    tex.Format('1 1 1 1')
+else:
+    MV.set_str_format(1)
+
+print('DIRAC COUPLING')
+AD=-imag*(E*t -p_x*x -p_y*y -p_z*z)+q*w*(phi*gamma_t+A_x*gamma_x+A_y*gamma_y+A_z*gamma_z)
+print('-('+imag.texLabel+'m+'+icquat.texLabel+'q \phi+'+kcquat.texLabel+'q'+A.texLabel+')\psi = (-'+icquat.texLabel+'\\frac{\\partial}{\\partial t}-'+iquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial x}-'+jquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial y}-'+kquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
+print('Exponential function with energy and momentum only, and a potential that depends on $w$')
+print('Electric and magnetic field are null')
+print 'f = ', AD
+print('Gradient for $f$')
+print '{\\nabla}f = ', AD.grad()
+
+ADM=AD+AM
+print('Full exponential function')
+print 'f = ', ADM
+
+if outputTex:
+    tex.Format('1 1 1 3')
+else:
+    MV.set_str_format(1)
+print('Gradient for $f$')
+print '{\\nabla}f = ', ADM.grad()
+
+print('\\end{equation*}\\newpage\\begin{equation*}')
 
 if outputTex:
     tex.xdvi(filename='CL1_4.tex', debug=True)
