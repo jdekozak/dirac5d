@@ -6,6 +6,5 @@ The CAS library is sympy. A patch is needed to get the pretty printing, look her
 http://code.google.com/p/sympy/issues/detail?id=2083
 Patch is no more needed with latest sympy as a submodule.
 
-Code works on Debian Squeeze. Put sympy submodule in PYTHONPATH.
-export PYTHONPATH=.../sympy
+Code works on Debian Squeeze.
 python ./CL1_4.py

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('./sympy')
+
 #computer algebra system
 from sympy import *
 from sympy.matrices import *
