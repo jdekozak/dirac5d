@@ -230,7 +230,7 @@ print('http://en.wikipedia.org/wiki/Dirac\_equation')
 print('0=({\gamma}_0 \\frac{\\partial}{\\partial t}+{\gamma}_1 \\frac{\\partial}{\\partial x}+{\gamma}_2 \\frac{\\partial}{\\partial y}+{\gamma}_3 \\frac{\\partial}{\\partial z}+'+imag.texLabel+'m) {\psi}')
 
 print('Substitution in Dirac equation')
-print('-'+imag.texLabel+'m\psi = (-'+icquat.texLabel+'\\frac{\\partial}{\\partial t}-'+iquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial x}-'+jquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial y}-'+kquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
+print('-'+imag.texLabel+'\\frac{\\partial}{\\partial w}\psi = (-'+icquat.texLabel+'\\frac{\\partial}{\\partial t}-'+iquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial x}-'+jquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial y}-'+kquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
 #print('Factorization and multiplication')
 #print('0 = '+jcquat.texLabel+'(-'+kcquat.texLabel+'\\frac{\\partial}{\\partial t}+'+iquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial x}+'+jquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial y}+'+kquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial z}-'+jcquat.texLabel+imag.texLabel+'m) {\psi}')
 
@@ -263,20 +263,20 @@ print '-'+jcquat.texLabel+' = ', -jcquat
 print '{\gamma}_5^2 = ', gamma_5*gamma_5
 
 print('Exponential function with energy and momentum only, electric and magnetic fields are null $f$')
-print 'f = ', AD
+print 'f = ', ADm
 print('Gradient for $f$')
-print '{\\nabla}f = ', AD.grad()
+print '{\\nabla}f = ', ADm.grad()
 print('Square of the gradient is a Lorentz invariant')
-print '{\\nabla}f^2 = ', AD.grad()*AD.grad()
+print '{\\nabla}f^2 = ', ADm.grad()*ADm.grad()
 
 print('Particular solutions $K$')
 for (kkey,k) in K.items():
     klabel = 'K_'+str(kkey)
     print klabel+'='+k.texLabel
-print('Check first derivative is null $K({\\nabla}f + i m)$')
+print('Check first derivative is null $K{\\nabla}f$')
 for (kkey,k) in K.items():
     klabel = 'K_'+str(kkey)
-    print klabel+'({\\nabla}f+ i m) =', k * (AD.grad()+imag*m)
+    print klabel+'{\\nabla}f =', k * (ADm.grad())
 
 print('Right multiplication, left multiplication and combinations of the eight particular solutions')
 
@@ -287,21 +287,24 @@ if outputTex:
 else:
     MV.set_str_format(1)
 
-res=U[1]*K[1]*(AD.grad()+imag*m)
+res=U[1]*K[1]*ADm.grad()
 res.expand()
-print 'U_1K_1 ({\\nabla}f+ i m) = ', res
+print 'U_1K_1{\\nabla}f = ', res
 
-res=(AD.grad()+imag*m)*K[1]*U[1]
+res=ADm.grad()*K[1]*U[1]
 res.expand()
-print '({\\nabla}f+ i m) K_1U_1 = ', res
+print '{\\nabla}f K_1U_1 = ', res
 
-psi=K[1]*U[1]*K[1]
+psi=-K[1]*U[1]*K[1]
 psi.expand()
 psi=psi.energy()
-print('\psi = K_1U_1K_1')
-print('\psi = K_1U_1U_1K_1')
-print('\psi : \psi_L\psi_R')
-print '\psi = ', psi
+
+print('\psi_L = -e^{-f}K_1U_1')
+print('\psi_R = U_1K_1e^f')
+print('\psi = \psi_L\psi_R')
+print('\psi : -e^{-f}K_1U_1U_1K_1e^f = -e^{-f}K_1U_1K_1e^f')
+print('IBOZOO UU : -K_1U_1K_1 = \Psi')
+print '\Psi = ', psi
 print('\\end{equation*}\\newpage\\begin{equation*}')
 print('Dirac observables handout 11 chapter 3.1')
 i=1
