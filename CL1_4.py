@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append('./sympy')
+sys.path.insert(0, './sympy')
 
 #computer algebra system
 from sympy import *
