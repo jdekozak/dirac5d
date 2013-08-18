@@ -2,9 +2,8 @@ Starting point is an article from P Rowlands available on arxiv :
 http://arxiv.org/abs/quant-ph/0301071
 Some articles from José B. Almeida are on Arxiv and give more hints.
 
-The CAS library is sympy. A patch is needed to get the pretty printing, look here :
-http://code.google.com/p/sympy/issues/detail?id=2083
-Patch is no more needed with latest sympy as a submodule.
+The CAS library is sympy.
 
-Code works on Debian Squeeze.
+Code works on Debian Wheezy.
+export PYTHONPATH=<clone dir>/sympy
 python ./CL1_4.py
