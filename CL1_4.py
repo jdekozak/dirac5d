@@ -49,19 +49,19 @@ kquat.texLabel='\\boldsymbol{\\mathit{k}}'
 #MV.I=jcquat
 
 def CheckProperties(i,j,k, ilabel, jlabel, klabel):
-    print ilabel + '=', i
-    print jlabel + '=', j
-    print klabel + '=', k
-    print ilabel + '^2=', i*i
-    print jlabel + '^2=', j*j
-    print klabel + '^2=', k*k
-    print ilabel + jlabel + '=', i*j
-    print jlabel + ilabel + '=', j*i
-    print jlabel + klabel + '=', j*k
-    print klabel + jlabel + '=', k*j
-    print klabel + ilabel + '=', k*i
-    print ilabel + klabel + '=', i*k
-    print ilabel + jlabel + klabel + '=', i*j*k
+    i.Fmt(fmt=1, title=ilabel)
+    j.Fmt(fmt=1, title=jlabel)
+    k.Fmt(fmt=1, title=klabel)
+    (i*i).Fmt(fmt=1, title='%'+ilabel+'^2')
+    (j*j).Fmt(fmt=1, title='%'+jlabel+'^2')
+    (k*k).Fmt(fmt=1, title='%'+klabel+'^2')
+    (i*j).Fmt(fmt=1, title=ilabel + jlabel)
+    (j*i).Fmt(fmt=1, title=jlabel + ilabel)
+    (j*k).Fmt(fmt=1, title=jlabel + klabel)
+    (k*j).Fmt(fmt=1, title=klabel + jlabel)
+    (k*i).Fmt(fmt=1, title=klabel + ilabel)
+    (i*k).Fmt(fmt=1, title=ilabel + klabel)
+    (i*j*k).Fmt(fmt=1, title=ilabel + jlabel + klabel)
 
 def CheckGlobals():
     '''Check algebra definitions'''
@@ -74,8 +74,8 @@ def CheckGlobals():
                     iquat.texLabel,jquat.texLabel,kquat.texLabel)
     print
     print '#Imaginary unit $' +imag.texLabel+'$\\newline'
-    print imag.texLabel+'=',imag
-    print imag.texLabel+'^2=', imag*imag
+    imag.Fmt(fmt=1, title=imag.texLabel)
+    (imag*imag).Fmt(fmt=1, title='%'+imag.texLabel+'^2')
     print
 
 #idempotents with icquat, jcquat, kcquat and jcquat*imag
@@ -193,13 +193,13 @@ print('#Energy $E \\in \\mathbb{R}$\\newline')
 print('#Mass $m \\in \\mathbb{R}$\\newline')
 print('#Momentum $'+p.texLabel+'$ is defined with $p_x, p_y, p_z \\in \\mathbb{R}$\\newline')
 print p.texLabel+'=p_x'+iquat.texLabel+'+p_y'+jquat.texLabel+'+p_z'+kquat.texLabel
-print p.texLabel+'=', p
+p.Fmt(fmt=1, title=p.texLabel)
 print('#Electric field $'+El.texLabel+'$ is defined with $E_x, E_y, E_z \\in \\mathbb{R}$\\newline')
 print El.texLabel+'=E_x'+iquat.texLabel+'+E_y'+jquat.texLabel+'+E_z'+kquat.texLabel
-print El.texLabel+'=', El
+El.Fmt(fmt=1, title=El.texLabel)
 print('#Magnetic field $'+B.texLabel+'$ is defined with $B_x, B_y, B_z \\in \\mathbb{R}$\\newline')
 print B.texLabel+'=B_x'+iquat.texLabel+'+B_y'+jquat.texLabel+'+B_z'+kquat.texLabel
-print B.texLabel+'=', B
+B.Fmt(fmt=1, title=B.texLabel)
 print('#Wave : $K$ is a constant and $f$ is a function of $(t, x, y, z, w)$\\newline')
 print('{\psi}=Ke^f')
 
@@ -213,7 +213,7 @@ print('{\\nabla}{\psi_R}=K({\\nabla}f)e^f')
 print('#Find solutions that fullfills left and right multiplication, (start with right multiplication)\\newline')
 
 print ('#$f$ is the exponential function\\newline')
-print ADM
+ADM.Fmt(fmt=1,title='f')
 
 
 print('\\end{equation*}\\newpage\\begin{equation*}')
@@ -221,12 +221,10 @@ print('#DIRAC\\newline')
 print('#http://en.wikipedia.org/wiki/Dirac\_equation\\newline')
 print('0=({\gamma}_0 \\frac{\\partial}{\\partial t}+{\gamma}_1 \\frac{\\partial}{\\partial x}+{\gamma}_2 \\frac{\\partial}{\\partial y}+{\gamma}_3 \\frac{\\partial}{\\partial z}+'+imag.texLabel+'m) {\psi}')
 
-print('#Substitution in Dirac equation')
-print('-'+imag.texLabel+'\\frac{\\partial}{\\partial w}\psi = (-'+icquat.texLabel+'\\frac{\\partial}{\\partial t}-'+iquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial x}-'+jquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial y}-'+kquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
 #print('Factorization and multiplication')
 #print('0 = '+jcquat.texLabel+'(-'+kcquat.texLabel+'\\frac{\\partial}{\\partial t}+'+iquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial x}+'+jquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial y}+'+kquat.texLabel+icquat.texLabel+'\\frac{\\partial}{\\partial z}-'+jcquat.texLabel+imag.texLabel+'m) {\psi}')
 
-print('#With the above gradients, identify the Dirac algebra aka gamma matrices\\newline')
+print('#Define the Dirac algebra (aka gamma matrices) with the two sets of quaternions\\newline')
 #print('http://en.wikipedia.org/wiki/Gamma_matrices#Normalisation')
 gamma_0 = -gamma_t*gamma_w
 gamma_1 = gamma_x*gamma_w
@@ -249,21 +247,24 @@ print '{\gamma}_5 = ', gamma_5
 print '-'+jcquat.texLabel+' = ', -jcquat
 print '{\gamma}_5^2 = ', gamma_5*gamma_5
 
+print('#Substitution in Dirac equation')
+print('-'+imag.texLabel+'\\frac{\\partial}{\\partial w}\psi = (-'+icquat.texLabel+'\\frac{\\partial}{\\partial t}-'+iquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial x}-'+jquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial y}-'+kquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
+
 print('#Exponential function with energy and momentum only, electric and magnetic fields are null $f$\\newline')
-print 'f = ', ADm
+ADm.Fmt(fmt=1, title='f')
 print('#Gradient for $f$\\newline')
-print '{\\nabla}f = ', grad*ADm
+(grad*ADm).Fmt(fmt=1, title='{\\nabla}f')
 print('#Square of the gradient is a Lorentz invariant\\newline')
-print '{\\nabla}f^2 = ', (grad*ADm)*(grad*ADm)
+((grad*ADm)*(grad*ADm)).Fmt(fmt=1, title='%{\\nabla}f^2')
 
 print('#Particular solutions $K$\\newline')
 for (kkey,k) in K.items():
     klabel = 'K_'+str(kkey)
-    print klabel+'='+k.texLabel
+    print klabel+'='+k.texLabel 
 print('#Check first derivative is null $K{\\nabla}f$\\newline')
 for (kkey,k) in K.items():
     klabel = 'K_'+str(kkey)
-    print klabel+'{\\nabla}f =', k * (grad*ADm)
+    (k * (grad*ADm)).Fmt(fmt=1, title=klabel+'{\\nabla}f')
 
 print('#Right multiplication, left multiplication and combinations of the eight particular solutions\\newline')
 
@@ -271,11 +272,11 @@ print 'U_1 = ', U[1]
 
 res=U[1]*K[1]*(grad*ADm)
 res.expand()
-print 'U_1K_1{\\nabla}f = ', res
+res.Fmt(fmt=2, title='U_1K_1{\\nabla}f')
 
 res=(grad*ADm)*K[1]*U[1]
 res.expand()
-print '{\\nabla}f K_1U_1 = ', res
+res.Fmt(fmt=2, title='{\\nabla}f K_1U_1')
 
 psi=-K[1]*U[1]*K[1]
 psi.expand()
@@ -284,9 +285,12 @@ psi=psi.energy()
 print('\psi_L = -e^{-f}K_1U_1')
 print('\psi_R = U_1K_1e^f')
 print('\psi = \psi_L\psi_R')
-print('\psi : -e^{-f}K_1U_1U_1K_1e^f = -e^{-f}K_1U_1K_1e^f')
-print('#IBOZOO UU : $-K_1U_1K_1 = \Psi$\\newline')
-print '\Psi = ', psi
+print('%\psi : -e^{-f}K_1U_1U_1K_1e^f = -e^{-f}K_1U_1K_1e^f')
+print('#this is the definition of a rotation :')
+print('%e^{-f}e^f=1')
+print('#IBOZOO UU ? $-K_1U_1K_1 = \Psi$\\newline')
+print('#for the same phase $f$, we can write 8 K combined with 16 U : 128 solutions ?')
+psi.Fmt(fmt=2, title='\Psi')
 print('\\end{equation*}\\newpage\\begin{equation*}')
 print('#Dirac observables handout 11 chapter 3.1\\newline')
 i=1
@@ -304,30 +308,29 @@ O={}
 print('\\end{equation*}\\newpage\\begin{equation*}')
 print('#MAXWELL\\newline')
 print('#Exponential function with electric and magnetic fields only $f$\\newline')
-print 'f = ', AM
+AM.Fmt(fmt=1, title='f')
 print('#Gradient for $f$\\newline')
-print '{\\nabla}f = ', grad*AM
+(grad*AM).Fmt(fmt=1, title='{\\nabla}f')
 print('#Square of the gradient is a Lorentz invariant\\newline')
-print '{\\nabla}f^2 = ', (grad*AM)*(grad*AM)
-#print ('{\\nabla}F_{Maxwell} is the current J')
-#print 'J = ', F_Maxwell.grad()
+((grad*AM)*(grad*AM)).Fmt(fmt=1, title='%{\\nabla}f^2')
 
 print('\\end{equation*}\\newpage\\begin{equation*}')
 print('#DIRAC MAXWELL\\newline')
 print ('#${\\nabla}f$ is the electromagnetic field $F$ with a Dirac component\\newline')
+ADM.Fmt(fmt=1, title='f')
 
 F_DiracMaxwell = grad*ADM
-print 'F_{DiracMaxwell} = ', F_DiracMaxwell
+F_DiracMaxwell.Fmt(fmt=1, title='F_{DiracMaxwell} : {\\nabla}f')
 
 F_Maxwell = -imag*(imag*B-jcquat*El)
 F_Maxwell.texLabel = '-'+imag.texLabel+'('+imag.texLabel+B.texLabel + '-' + jcquat.texLabel + El.texLabel+')'
 print 'F_{Maxwell} = ' + F_Maxwell.texLabel 
-print 'F_{Maxwell} = ', F_Maxwell
+F_Maxwell.Fmt(fmt=1, title='F_{Maxwell}')
 
 F_Dirac = grad*AD
 F_Dirac.texLabel = '('+kcquat.texLabel+p.texLabel+'-'+icquat.texLabel+'E)'
 print 'F_{Dirac} = '+F_Dirac.texLabel
-print 'F_{Dirac} = ', F_Dirac
+F_Dirac.Fmt(fmt=1, title='F_{Dirac}')
 
 print('\\end{equation*}\\newpage\\begin{equation*}')
 
@@ -337,19 +340,18 @@ AD=-imag*(E*t -p_x*x -p_y*y -p_z*z)+q*w*(phi*gamma_t+A_x*gamma_x+A_y*gamma_y+A_z
 print('-('+imag.texLabel+'m+'+icquat.texLabel+'q \phi+'+kcquat.texLabel+'q'+A.texLabel+')\psi = (-'+icquat.texLabel+'\\frac{\\partial}{\\partial t}-'+iquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial x}-'+jquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial y}-'+kquat.texLabel+kcquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
 print('#Exponential function with energy and momentum only, and a potential that depends on $w$\\newline')
 print('#Electric and magnetic field are null\\newline')
-print 'f = ', AD
+AD.Fmt(fmt=1, title='f')
 print('#Gradient for $f$')
-print '{\\nabla}f = ', grad*AD
+(grad*AD).Fmt(fmt=1, title='{\\nabla}f')
 
 ADM=AD+AM
 print('#Full exponential function\\newline')
-print 'f = ', ADM
+ADM.Fmt(fmt=1, title='f')
 
 print('#Gradient for $f$\\newline')
-print '{\\nabla}f = ', grad*ADM
+(grad*ADM).Fmt(fmt=3, title='{\\nabla}f')
 
 print('\\end{equation*}\\newpage\\begin{equation*}')
 
 if outputTex:
-    #xdvi(filename='CL1_4.tex', debug=True)
     xdvi()
