@@ -8,8 +8,8 @@ from sympy.matrices import *
 from sympy.galgebra.ga import *
 from sympy.galgebra.printing import *
 
-#outputTex=True
-outputTex=False
+outputTex=True
+#outputTex=False
 
 ########################################################################
 #ALGEBRA & DEFINITIONS
@@ -293,12 +293,12 @@ psi=-K[1]*U[1]*K[1]
 #psi.expand()
 psi=psi.energy()
 
-(K[1]*U[1] - U[1]*K[1]).Fmt(fmt=2, title='U_1K_1 - K_1U_1')
+(K[1]*U[1] + U[1]*K[1]).Fmt(fmt=2, title='U_1K_1 + K_1U_1')
 
 print('\psi = U_1K_1e^f')
 print('\psi = -e^{-f}K_1U_1')
-print('\psi^2 = -e^{-f}K_1U_1U_1K_1e^f')
-print('\psi^2 = -e^{-f}K_1U_1K_1e^f')
+print('%\psi^2 = -e^{-f}K_1U_1U_1K_1e^f')
+print('%\psi^2 = -e^{-f}K_1U_1K_1e^f')
 print('#this is the definition of a rotation :')
 print('%e^{-f}e^f=1')
 print('-K_1U_1K_1 = \Psi')
