@@ -289,22 +289,23 @@ res=(grad*ADm)*K[1]*U[1]
 res=res.energy()
 res.Fmt(fmt=2, title='{\\nabla}f K_1U_1')
 
-psi=-K[1]*U[1]*K[1]
-#psi.expand()
-psi=psi.energy()
-
 (K[1]*U[1] + U[1]*K[1]).Fmt(fmt=2, title='U_1K_1 + K_1U_1')
 
+print('#16 idempotents, 16 solutions')
 print('\psi = U_1K_1e^f')
-print('\psi = -e^{-f}K_1U_1')
-print('%\psi^2 = -e^{-f}K_1U_1U_1K_1e^f')
-print('%\psi^2 = -e^{-f}K_1U_1K_1e^f')
+print('\\end{equation*}\\newpage\\begin{equation*}')
+
+print('#Dirac observables handout 11 chapter 3.1\\newline')
+print('%\psi^{\dag} = -e^{-f}K_1U_1')
+print('%\\rho = \psi^{\dag}\psi = -e^{-f}K_1U_1U_1K_1e^f')
+print('%\\rho = \psi^{\dag}\psi = -e^{-f}K_1U_1K_1e^f')
 print('#this is the definition of a rotation :')
 print('%e^{-f}e^f=1')
-print('-K_1U_1K_1 = \Psi')
-psi.Fmt(fmt=2, title='\Psi')
-print('\\end{equation*}\\newpage\\begin{equation*}')
-print('#Dirac observables handout 11 chapter 3.1\\newline')
+print('-K_1U_1K_1 = \Phi')
+phi=-K[1]*U[1]*K[1]
+#phi.expand()
+phi=phi.energy()
+phi.Fmt(fmt=2, title='\Phi')
 i=1
 O={}
 #for (aBasis,aBasisLabel) in [(1,''),(imag,imag.texLabel),(ihquat,ihquat.texLabel),(khquat,khquat.texLabel)]:
