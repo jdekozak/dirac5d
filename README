@@ -9,7 +9,10 @@ The CAS library is sympy.
 Code works on Debian Wheezy
 Code works on Mac OS X Tiger (10.4.11) with fink distribution for python (2.7.5) and latex (pdfTeX 3.1415926-2.3-1.40.12 (TeX Live 2011/Fink) )
 
-export PYTHONPATH=<clone dir>/sympy
+git clone https://github.com/jdekozak/dirac5d.git
+cd dirac5d
+git submodule init
+git submodule update
 python ./CL1_4.py
 
 Details :
