@@ -5,8 +5,8 @@ sys.path.insert(0, './sympy')
 #computer algebra system
 from sympy import *
 from sympy.matrices import *
-from sympy.galgebra.ga import *
-from sympy.galgebra.printing import *
+from sympy.galgebra.ga import Ga
+from sympy.galgebra.printer import *
 
 outputTex=True
 #outputTex=False
@@ -17,15 +17,18 @@ outputTex=True
 #Clifford(1,4)
 #Flat space, no metric, just signature
 #All constants = 1
-metric = '1  0  0  0  0,'+\
-         '0 -1  0  0  0,'+\
-         '0  0 -1  0  0,'+\
-         '0  0  0 -1  0,'+\
-         '0  0  0  0 -1'
+metric=[1
+        ,-1
+        ,-1
+        ,-1
+        ,-1]
 #Dimensions
-vars = t, x, y, z, w = symbols('t x y z w')
+variables = (t, x, y, z, w) = symbols('t x y z w', real=True)
 myBasis='gamma_t gamma_x gamma_y gamma_z gamma_w'
-gamma_t, gamma_x, gamma_y, gamma_z, gamma_w, grad = MV.setup(myBasis,metric,coords=vars)
+sp5d = Ga(myBasis, g=metric, coords=variables,norm=True)
+(gamma_t, gamma_x, gamma_y, gamma_z, gamma_w) = sp5d.mv()
+grad, rgrad = sp5d.grads()
+
 if outputTex:
     Format()
 #Imaginary unit
@@ -163,10 +166,6 @@ texLabel='-'+'(-'+ihquat.texLabel+imag.texLabel+'E-'+imag.texLabel+'m-'+khquat.t
 K[8]=-(-ihquat*imag*E-imag*m-khquat*p)*khquat*imag
 K[8].texLabel=texLabel
 
-def energy(self):
-    return self.subs({E**2/4-m**2/4-p_x**2/4-p_y**2/4-p_z**2/4:0,-E**2/4+m**2/4+p_x**2/4+p_y**2/4+p_z**2/4:0})
-MV.energy=energy
-
 ########################################################################
 #MAIN DIRAC
 ########################################################################
@@ -281,17 +280,17 @@ U[1].Fmt(fmt=1, title='U_1')
 
 res=U[1]*K[1]*(grad*ADm)
 #res.expand()
-res=res.energy()
+
 res.Fmt(fmt=2, title='U_1K_1{\\nabla}f')
 
 res=(grad*ADm)*K[1]*U[1]
 #res.expand()
-res=res.energy()
+
 res.Fmt(fmt=2, title='{\\nabla}f K_1U_1')
 
 (K[1]*U[1] + U[1]*K[1]).Fmt(fmt=2, title='U_1K_1 + K_1U_1')
 
-print('#16 idempotents, 16 solutions')
+print('#16 idempotents, 16 solutions ?')
 print('\psi = U_1K_1e^f')
 print('\\end{equation*}\\newpage\\begin{equation*}')
 
@@ -304,7 +303,7 @@ print('%e^{-f}e^f=1')
 print('-K_1U_1K_1 = \Phi')
 phi=-K[1]*U[1]*K[1]
 #phi.expand()
-phi=phi.energy()
+
 phi.Fmt(fmt=2, title='\Phi')
 i=1
 O={}
@@ -371,4 +370,4 @@ print('#Gradient for $f$\\newline')
 print('\\end{equation*}\\newpage\\begin{equation*}')
 
 if outputTex:
-    xdvi()
+    xpdf()

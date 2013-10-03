@@ -1,3 +1,5 @@
+Long story made short :
+
 Starting point is an article from P Rowlands available on arxiv :
 http://arxiv.org/abs/quant-ph/0301071
 Some articles from José B. Almeida are on Arxiv and give more hints.
@@ -9,3 +11,13 @@ Code works on Mac OS X Tiger (10.4.11) with fink distribution for python (2.7.5)
 
 export PYTHONPATH=<clone dir>/sympy
 python ./CL1_4.py
+
+Details :
+
+1/ Is it possible to write the Dirac equation with geometric algebra ?
+2/ Is it possible to write the Dirac equation with a geometric algebra over the reals and NOT the complex ?
+3/ Is it possible to find solutions of the Dirac equation without the classical physical assumptions (eg. mass is a positive real) ?
+
+Then,
+=> Are results from the classic Dirac equation still valid ?
+=> Are there any new results with this approach ?
