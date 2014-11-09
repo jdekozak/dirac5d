@@ -26,3 +26,21 @@ myBasis='gamma_t gamma_x gamma_y gamma_z gamma_w'
 sp5d = Ga(myBasis, g=metric, coords=variables,norm=True)
 (gamma_t, gamma_x, gamma_y, gamma_z, gamma_w) = sp5d.mv()
 (grad, rgrad) = sp5d.grads()
+
+#Imaginary unit
+imag=gamma_w
+imag.texLabel='i'
+#Associative Hyperbolic Quaternions
+ihquat=gamma_t
+jhquat=gamma_t*gamma_x*gamma_y*gamma_z*gamma_w
+khquat=gamma_x*gamma_y*gamma_z*gamma_w
+ihquat.texLabel='\\mathbf{i}'
+jhquat.texLabel='\\mathbf{j}'
+khquat.texLabel='\\mathbf{k}'
+#Quaternions
+iquat=gamma_y*gamma_z
+jquat=gamma_z*gamma_x
+kquat=gamma_x*gamma_y
+iquat.texLabel='\\boldsymbol{\\mathit{i}}'
+jquat.texLabel='\\boldsymbol{\\mathit{j}}'
+kquat.texLabel='\\boldsymbol{\\mathit{k}}'

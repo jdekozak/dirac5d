@@ -7,25 +7,6 @@ outputTex=True
 if outputTex:
     Format()
 
-#Imaginary unit
-imag=gamma_w
-imag.texLabel='i'
-#Associative Hyperbolic Quaternions
-ihquat=gamma_t
-jhquat=gamma_t*gamma_x*gamma_y*gamma_z*gamma_w
-khquat=gamma_x*gamma_y*gamma_z*gamma_w
-ihquat.texLabel='\\mathbf{i}'
-jhquat.texLabel='\\mathbf{j}'
-khquat.texLabel='\\mathbf{k}'
-#Quaternions
-iquat=gamma_y*gamma_z
-jquat=gamma_z*gamma_x
-kquat=gamma_x*gamma_y
-iquat.texLabel='\\boldsymbol{\\mathit{i}}'
-jquat.texLabel='\\boldsymbol{\\mathit{j}}'
-kquat.texLabel='\\boldsymbol{\\mathit{k}}'
-
-
 def CheckProperties(i,j,k, ilabel, jlabel, klabel):
     i.Fmt(fmt=1, title=ilabel)
     j.Fmt(fmt=1, title=jlabel)
@@ -76,7 +57,7 @@ def Idempotents():
 ########################################################################
 #PHYSICS
 ########################################################################
-q, m, E, p_x, p_y, p_z, E_x, E_y, E_z, B_x, B_y, B_z, phi, A_x, A_y, A_z = symbols('q m E p_x p_y p_z E_x E_y E_z B_x B_y B_z phi A_x A_y A_z')
+q, m, E, p_x, p_y, p_z, E_x, E_y, E_z, B_x, B_y, B_z, phi, A_x, A_y, A_z = symbols('q m E p_x p_y p_z E_x E_y E_z B_x B_y B_z phi A_x A_y A_z', real=True)
 
 R = x*gamma_x+y*gamma_y+z*gamma_z
 rquat = [iquat, jquat, kquat]
@@ -106,18 +87,18 @@ B.texLabel='\\mathbf{B}'
 A.texLabel='\\mathbf{A}'
 
 #potentiels A
-ADm=S(1)*(-imag*(E*t -p_x*x -p_y*y -p_z*z) -m*w )
-AD=       -imag*(E*t -p_x*x -p_y*y -p_z*z)
-AM=(E_x*x+E_y*y+E_z*z)*gamma_t+(-B_y*z)*gamma_x+(-B_z*x)*gamma_y+(-B_x*y)*gamma_z
+ADm=S(1)*(imag*(E*t +p_x*x +p_y*y +p_z*z) +m*w )
+AD=       imag*(E*t +p_x*x +p_y*y +p_z*z)
+AM=(E_x*x+E_y*y+E_z*z)*gamma_t+(B_y*z)*gamma_x+(B_z*x)*gamma_y+(B_x*y)*gamma_z
 ADM=ADm+AM
 
 #Solutions particulieres
 i=1
 K={}
-for (signs,the_symbols) in zip([(+1, +1), (+1, -1), (+1, +1), (-1, -1)],
-                           [('+','+'),('+','-'),('+','+'),('-','-')]):
-    k=(-ihquat*imag*E+signs[0]*imag*m+signs[1]*khquat*p)
-    k.texLabel='(-'+ihquat.texLabel+imag.texLabel+'E'+the_symbols[0]+imag.texLabel+'m'+the_symbols[1]+khquat.texLabel+p.texLabel+')'
+for (signs,the_symbols) in zip([(-1, +1), (-1, -1), (-1, +1), (+1, -1)],
+                           [('-','+'),('-','-'),('-','+'),('+','-')]):
+    k=(ihquat*imag*E+signs[0]*imag*m+signs[1]*khquat*p)
+    k.texLabel='('+ihquat.texLabel+imag.texLabel+'E'+the_symbols[0]+imag.texLabel+'m'+the_symbols[1]+khquat.texLabel+p.texLabel+')'
     K[i] = k
     i += 1
 texLabel='-'+K[2].texLabel+khquat.texLabel
@@ -129,17 +110,17 @@ K[3].texLabel=texLabel
 texLabel=K[4].texLabel+ihquat.texLabel+imag.texLabel
 K[4]=K[4]*ihquat*imag
 K[4].texLabel=texLabel
-texLabel='(-'+ihquat.texLabel+imag.texLabel+'E-'+imag.texLabel+'m+'+khquat.texLabel+p.texLabel+')'+jhquat.texLabel+imag.texLabel
-K[5]=(-ihquat*imag*E-imag*m+khquat*p)*jhquat*imag
+texLabel='('+ihquat.texLabel+imag.texLabel+'E+'+imag.texLabel+'m+'+khquat.texLabel+p.texLabel+')'+jhquat.texLabel+imag.texLabel
+K[5]=(ihquat*imag*E+imag*m+khquat*p)*jhquat*imag
 K[5].texLabel=texLabel
-texLabel='-'+'(-'+ihquat.texLabel+imag.texLabel+'E-'+imag.texLabel+'m+'+khquat.texLabel+p.texLabel+')'+imag.texLabel
-K[6]=-(-ihquat*imag*E-imag*m+khquat*p)*imag
+texLabel='-'+'('+ihquat.texLabel+imag.texLabel+'E+'+imag.texLabel+'m+'+khquat.texLabel+p.texLabel+')'+imag.texLabel
+K[6]=-(ihquat*imag*E+imag*m+khquat*p)*imag
 K[6].texLabel=texLabel
-texLabel='(-'+ihquat.texLabel+imag.texLabel+'E+'+imag.texLabel+'m-'+khquat.texLabel+p.texLabel+')'+ihquat.texLabel
-K[7]=(-ihquat*imag*E+imag*m-khquat*p)*ihquat
+texLabel='-('+ihquat.texLabel+imag.texLabel+'E-'+imag.texLabel+'m-'+khquat.texLabel+p.texLabel+')'+ihquat.texLabel
+K[7]=-(ihquat*imag*E-imag*m-khquat*p)*ihquat
 K[7].texLabel=texLabel
-texLabel='-'+'(-'+ihquat.texLabel+imag.texLabel+'E-'+imag.texLabel+'m-'+khquat.texLabel+p.texLabel+')'+khquat.texLabel+imag.texLabel
-K[8]=-(-ihquat*imag*E-imag*m-khquat*p)*khquat*imag
+texLabel='-'+'('+ihquat.texLabel+imag.texLabel+'E+'+imag.texLabel+'m-'+khquat.texLabel+p.texLabel+')'+khquat.texLabel+imag.texLabel
+K[8]=-(ihquat*imag*E+imag*m-khquat*p)*khquat*imag
 K[8].texLabel=texLabel
 
 ########################################################################
@@ -156,8 +137,9 @@ print('#Algebra playground is Clifford $Cl_{1,4}(\\mathbb{R})$, hence signature 
 # 1 pseudo scalar
 CheckGlobals()
 print('#Gradient definition\\newline')
-print('{\\nabla}=({\gamma}_t \\frac{\\partial}{\\partial t}+{\gamma}_x \\frac{\\partial}{\\partial x}+{\gamma_y} \\frac{\\partial}{\\partial y}+{\gamma_z} \\frac{\\partial}{\\partial z}+{\gamma_w} \\frac{\\partial}{\\partial w})')
-print('#http://www.mrao.cam.ac.uk/~clifford/ptIIIcourse/course99/handouts/hout07.ps.gz\\newline')
+grad.Fmt(fmt=1,title='grad')
+
+print('\\end{equation*}\\newpage\\begin{equation*}')
 Idempotents()
 
 print('\\end{equation*}\\newpage\\begin{equation*}')
@@ -178,14 +160,8 @@ print('#Wavefunction : $K$ is a constant and $f$ is a function of $(t, x, y, z, 
 print('{\psi}=Ke^f')
 
 print('#First derivative\\newline')
-print('{\\nabla}{\psi}={\\nabla}(Ke^f)')
-print('{\\nabla}{\psi}=({\\nabla}K)e^f+K{\\nabla}(e^f)')
-print('{\\nabla}K=0')
-print('{\\nabla}{\psi_L}=({\\nabla}f)Ke^f')
-print('{\\nabla}{\psi_R}=Ke^f({\\nabla}f)')
-print('{\\nabla}{\psi_R}=K({\\nabla}f)e^f')
-print('K({\\nabla}f) = ({\\nabla}f)K = 0')
-print('#Find solutions that fullfills left and right multiplication\\newline')
+print('grad*K=0')
+print('#Find solutions\\newline')
 
 print ('#$f$ is the exponential function\\newline')
 ADM.Fmt(fmt=1,title='f')
@@ -195,12 +171,10 @@ print('\\end{equation*}\\newpage\\begin{equation*}')
 print('#DIRAC\\newline')
 print('#http://en.wikipedia.org/wiki/Dirac\_equation\\newline')
 print('0=({\gamma}_0 \\frac{\\partial}{\\partial t}+{\gamma}_1 \\frac{\\partial}{\\partial x}+{\gamma}_2 \\frac{\\partial}{\\partial y}+{\gamma}_3 \\frac{\\partial}{\\partial z}+'+imag.texLabel+'m) {\psi}')
-
-#print('Factorization and multiplication')
-#print('0 = '+jhquat.texLabel+'(-'+khquat.texLabel+'\\frac{\\partial}{\\partial t}+'+iquat.texLabel+ihquat.texLabel+'\\frac{\\partial}{\\partial x}+'+jquat.texLabel+ihquat.texLabel+'\\frac{\\partial}{\\partial y}+'+kquat.texLabel+ihquat.texLabel+'\\frac{\\partial}{\\partial z}-'+jhquat.texLabel+imag.texLabel+'m) {\psi}')
+print('#Gradient definition\\newline')
+(-grad).Fmt(fmt=1,title='-grad')
 
 print('#Define the Dirac algebra (aka gamma matrices) with the two sets of quaternions\\newline')
-#print('http://en.wikipedia.org/wiki/Gamma_matrices#Normalisation')
 gamma_0 = -gamma_t*gamma_w
 gamma_1 = gamma_x*gamma_w
 gamma_2 = gamma_y*gamma_w
@@ -224,13 +198,15 @@ print '%{\gamma}_5^2 = ', gamma_5*gamma_5
 
 print('#Substitution in Dirac equation')
 print('-'+imag.texLabel+'\\frac{\\partial}{\\partial w}\psi = (-'+ihquat.texLabel+imag.texLabel+'\\frac{\\partial}{\\partial t}-'+iquat.texLabel+khquat.texLabel+'\\frac{\\partial}{\\partial x}-'+jquat.texLabel+khquat.texLabel+'\\frac{\\partial}{\\partial y}-'+kquat.texLabel+khquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
+print(imag.texLabel+'\\frac{\\partial}{\\partial w}\psi = (-'+imag.texLabel+ihquat.texLabel+'\\frac{\\partial}{\\partial t}+'+iquat.texLabel+khquat.texLabel+'\\frac{\\partial}{\\partial x}+'+jquat.texLabel+khquat.texLabel+'\\frac{\\partial}{\\partial y}+'+kquat.texLabel+khquat.texLabel+'\\frac{\\partial}{\\partial z}) {\psi}')
 
 print('#Exponential function with energy and momentum only, electric and magnetic fields are null $f$\\newline')
 ADm.Fmt(fmt=1, title='f')
 print('#Gradient for $f$\\newline')
-(grad*ADm).Fmt(fmt=1, title='{\\nabla}f')
+(-grad*ADm).Fmt(fmt=1, title='-grad*f')
+(grad*ADm).Fmt(fmt=1, title='grad*f')
 print('#Square of the gradient is a Lorentz invariant\\newline')
-((grad*ADm)*(grad*ADm)).Fmt(fmt=1, title='%{\\nabla}f^2')
+((grad*ADm)*(grad*ADm)).Fmt(fmt=1, title='%{\\bm{\\nabla}f}^2')
 
 print('#Particular solutions $K$\\newline')
 for (kkey,k) in K.items():
