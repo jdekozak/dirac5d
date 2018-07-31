@@ -15,6 +15,10 @@ git submodule init
 git submodule update
 python ./dirac5d.py
 
+Or :
+docker build --rm -t jupyter/galgebra-notebook .
+docker run -p 80:8888 -e NB_UID=500 -e NB_GID=500 --user root -v /home/ec2-user/dirac5d:/home/jovyan/work jupyter/galgebra-notebook
+
 Details :
 
 1/ Is it possible to write the Dirac equation with geometric algebra ?
