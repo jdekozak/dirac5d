@@ -1,14 +1,17 @@
 # Five dimensional Dirac equation over the reals
 ## Theoretical background
 ### Long story made short
-Starting point is an article from P Rowlands available on arxiv :
-http://arxiv.org/abs/quant-ph/0301071
-Some articles from José B. Almeida are on Arxiv and give more hints.
-And articles from Basil Hiley give the link to clifford density element to combine left and right operators.
+Starting point is an article from P Rowlands available on arxiv : http://arxiv.org/abs/quant-ph/0301071
+
+Some articles from José B. Almeida are on Arxiv and give more hints. https://arxiv.org/search/?searchtype=author&query=Almeida%2C+J+B
+
+And articles from Basil Hiley give the link to clifford density element to combine left and right operators. http://www.bbk.ac.uk/tpru/BasilHiley/Bohm-Vienna.pdf
+
 ### Details and goals
 1. Is it possible to write the Dirac equation with geometric algebra ?
 2. Is it possible to write the Dirac equation with a geometric algebra over the reals and NOT the complex ?
 3. Is it possible to find solutions of the Dirac equation without the classical physical assumptions (eg. mass is a positive real) ?
+
 Then,
 1. Are results from the classic Dirac equation still valid ?
 2. Are there any new results with this approach ?
@@ -38,7 +41,7 @@ docker run -p 80:8888 -e NB_UID=500 -e NB_GID=500 --user root -v /home/<user>/di
 ```
 Open a browser to your localhost
 ### Run from a command line terminal
-This the hard way, computations are run locally and all at once, galgebra package generates a PDF document to be viewed with another viewer tool.
+This is the hard way, computations are run locally and all at once, galgebra package generates a PDF document to be viewed with another viewer tool.
 ```
 git clone https://github.com/jdekozak/dirac5d.git
 cd dirac5d
