@@ -30,9 +30,10 @@ docker run -p 80:8888 -e NB_UID=500 -e NB_GID=500 --user root -v /home/ec2-user/
 ```
 ### Run with Jupyter notebook webserver on Mac OS X
 Computations and rendering are run the local machine.
-Git and Docker must be installed
-https://docs.docker.com/docker-for-mac/install/
-https://git-scm.com/download/mac
+
+Docker must be installed https://docs.docker.com/docker-for-mac/install/
+
+Git must be installed https://git-scm.com/download/mac
 ```
 git clone https://github.com/jdekozak/dirac5d.git
 cd dirac5d
