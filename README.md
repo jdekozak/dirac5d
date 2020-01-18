@@ -19,6 +19,9 @@ Then,
 - The CAS library is sympy,
 - the geometric algebra library is galgebra,
 - language is python2.
+### Run with binder
+This is the easiest method, there is nothing to install, the notebook will run remotely, display is in the browser
+Link to binder is 
 ### Run with Jupyter notebook webserver on AWS EC2
 This is the preferred method, computations are run on the server, only rendering is happening on the local machine.
 An AWS EC2 instance is properly setup with Docker and Git, ssh connection on the instance is open.
@@ -41,13 +44,4 @@ docker build --rm -t jupyter/galgebra-notebook .
 docker run -p 80:8888 -e NB_UID=500 -e NB_GID=500 --user root -v /home/<user>/dirac5d:/home/jovyan/work jupyter/galgebra-notebook
 ```
 Open a browser to your localhost
-### Run from a command line terminal
-This is the hard way, computations are run locally and all at once, galgebra package generates a PDF document to be viewed with another viewer tool.
 ```
-git clone https://github.com/jdekozak/dirac5d.git
-cd dirac5d
-git submodule init
-git submodule update
-python ./dirac5d.py
-```
-
