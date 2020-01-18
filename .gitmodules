@@ -1,3 +1,0 @@
-[submodule "sympy"]
-	path = sympy
-	url = https://github.com/brombo/sympy.git
