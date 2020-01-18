@@ -23,7 +23,7 @@ Then,
 This is the easiest method, there is nothing to install, the notebook will run remotely, display is in the browser
 Link to binder is [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jdekozak/dirac5d/master) 
 ### Run with Jupyter notebook webserver on AWS EC2
-This is the preferred method, computations are run on the server, only rendering is happening on the local machine.
+Computations are run on the server, only rendering is happening on the local machine.
 An AWS EC2 instance is properly setup with Docker and Git, ssh connection on the instance is open.
 ```
 git clone https://github.com/jdekozak/dirac5d.git
